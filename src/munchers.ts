@@ -1,5 +1,5 @@
 import { Color, Profession, AbsoluteColumn, AbsoluteRow, AbsoluteCoord } from "cerke_online_api";
-import { Munch, liftM2, liftM3 } from "./munch_monad";
+import { Munch, liftM2, liftM3, exact } from "./munch_monad";
 
 const munchColor: Munch<Color> = (s: string) => {
 	if (s.charAt(0) === "赤") { return { ans: 0, rest: s.slice(1) } }
@@ -42,3 +42,5 @@ export const munchCoord: Munch<AbsoluteCoord> = liftM2((col: AbsoluteColumn, row
 }, munchColumn, munchRow)
 
 export const munchFromHand = liftM3((color, prof, dest) => ({ color, prof, dest }), munchColor, munchProfession, munchCoord);
+
+export const munchBracketedCoord: Munch<AbsoluteCoord> = liftM3((_1, coord, _2) => coord, exact("["), munchCoord, exact("]"));

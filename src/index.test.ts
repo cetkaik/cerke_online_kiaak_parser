@@ -8,6 +8,43 @@ test('seasons', () => {
 	expect(handleBodyElement("終季")).toEqual({ "type": "end_season" });
 });
 
+test("hmm", () => { expect(() => handleBodyElement("あ")).toThrow(); })
+
+test("tammove", () => {
+	expect(handleBodyElement("ZU皇[TO]TU")).toEqual({
+		"movement": {
+			"src": ["U", "Z"],
+			"firstDest": ["O", "T"],
+			"secondDest": ["U", "T"],
+			"stepStyle": "NoStep",
+			"type": "TamMove",
+		},
+		"type": "normal_move",
+	});
+	expect(handleBodyElement("ZO皇[ZU]ZIZE")).toEqual({
+		"movement": {
+			"src": ["O", "Z"],
+			"firstDest": ["U", "Z"],
+			"step": ["I", "Z"],
+			"secondDest": ["E", "Z"],
+			"stepStyle": "StepsDuringLatter",
+			"type": "TamMove"
+		},
+		"type": "normal_move",
+	});
+	expect(handleBodyElement("TY皇TAI[TAU]ZAU")).toEqual({
+		"movement": {
+			"src": ["Y", "T"],
+			"step": ["AI", "T"],
+			"firstDest": ["AU", "T"],
+			"secondDest": ["AU", "Z"],
+			"stepStyle": "StepsDuringFormer",
+			"type": "TamMove"
+		},
+		"type": "normal_move",
+	});
+})
+
 test("fromHand", () => {
 	expect(handleBodyElement("黒弓MY")).toEqual({
 		"type": "normal_move",
@@ -20,7 +57,7 @@ test("fromHand", () => {
 			}
 		}
 	});
-	expect(() => handleBodyElement("あ")).toThrow();
+	expect(() => handleBodyElement("黒弓MYあいうえお")).toThrow();
 })
 
 test('wrong prof', () => {

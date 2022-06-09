@@ -12,6 +12,8 @@ export const pure: <A> (a: A) => Munch<A> = (a) => (input: string) => ({ ans: a,
 export const liftM2: <A, B, C> (f: (a: A, b: B) => C, ma: Munch<A>, mb: Munch<B>) => Munch<C> = (f, ma, mb) =>
 	bind(ma, a => bind(mb, b => pure(f(a, b))));
 
+export const exact: (prefix: string) => Munch<undefined> =
+	(prefix) => (input) => input.startsWith(prefix) ? { ans: undefined, rest: input.slice(prefix.length) } : null;
 
 export const liftM3: <A, B, C, D> (f: (a: A, b: B, c: C) => D, ma: Munch<A>, mb: Munch<B>, mc: Munch<C>) => Munch<D> = (f, ma, mb, mc) =>
 	bind(ma, a => bind(mb, b => bind(mc, c => pure(f(a, b, c)))));

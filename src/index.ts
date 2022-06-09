@@ -1,5 +1,5 @@
 import { AbsoluteColumn, AbsoluteCoord, AbsoluteRow, Color, NormalMove, Profession, Season } from "cerke_online_api";
-import { munchCoord, munchFromHand } from "./munchers";
+import { munchBracketedCoord, munchCoord, munchFromHand } from "./munchers";
 import { Munch, liftM2, liftM3 } from "./munch_monad";
 
 type Parsed = { starting_players: string | undefined, starting_time: string | undefined, ending_time: string | undefined, }
@@ -32,7 +32,70 @@ type BodyElement = { "type": "normal_move", movement: NormalMove }
 	| { "type": "season_ends", season: Season };
 
 export function handleTamMove(s: string): BodyElement {
-	throw new Error("todo")
+	const try_munch_src = munchCoord(s);
+	if (!try_munch_src) {
+		throw new Error(`Unparsable BodyElement encountered: \`${s}\``)
+	}
+	const { ans: src, rest } = try_munch_src;
+
+	if (rest.charAt(0) !== "皇") {
+		throw new Error(`failed to find tam2 while reading \`${s}\``);
+	}
+
+
+	// the format is either:
+	// - ZU皇[TO]TU
+	// - ZO皇[ZU]ZIZE
+	// - TY皇TAI[TAU]ZAU
+
+	const try_munch_bracket_and_nonbracket = liftM2(
+		(firstDest, next) => ({ firstDest, next }),
+		munchBracketedCoord,
+		munchCoord
+	)(rest.slice(1));
+	if (try_munch_bracket_and_nonbracket) {
+		// either:
+		// - ZU皇[TO]TU
+		// - ZO皇[ZU]ZIZE
+		const { ans: { firstDest, next }, rest: rest2 } = try_munch_bracket_and_nonbracket;
+		if (rest2 === "") {
+			return {
+				"type": "normal_move",
+				movement: {
+					type: "TamMove",
+					stepStyle: "NoStep",
+					src, firstDest, secondDest: next
+				}
+			}
+		} else {
+			const try_munch_coord = munchCoord(rest2);
+			if (!try_munch_coord) { throw new Error(`Unparsable BodyElement encountered: \`${s}\``) }
+			const { ans: secondDest, rest: empty } = try_munch_coord;
+			if (empty !== "") { throw new Error(`Cannot handle trailing \`${empty}\` found within  \`${s}\``) }
+			return {
+				"type": "normal_move",
+				movement: { type: "TamMove", stepStyle: "StepsDuringLatter", src, firstDest, step: next, secondDest }
+			}
+		}
+
+	} else {
+		// - TY皇TAI[TAU]ZAU
+		const munch = liftM3(
+			(step, firstDest, secondDest) => ({ step, firstDest, secondDest }),
+			munchCoord, munchBracketedCoord, munchCoord)(rest.slice(1));
+		if (!munch) { throw new Error(`Unparsable BodyElement encountered: \`${s}\``) };
+		const { ans: { step, firstDest, secondDest }, rest: empty } = munch;
+
+		if (empty !== "") { throw new Error(`Cannot handle trailing \`${rest}\` found within  \`${s}\``) }
+		return {
+			"type": "normal_move",
+			movement: {
+				type: "TamMove",
+				stepStyle: "StepsDuringFormer",
+				src, step, firstDest, secondDest
+			}
+		}
+	}
 }
 
 export function handleYaku(s: string): BodyElement {
@@ -49,15 +112,10 @@ export function handleBodyElement(s: string): BodyElement {
 	if (s.includes("或")) { return handleYaku(s); }
 	if (s.includes("皇")) { return handleTamMove(s); }
 
-	const try_munch_src = munchCoord(s);
-	if (!try_munch_src) {
-		// fromHand
-		const try_munch = munchFromHand(s);
-		if (!try_munch) {
-			throw new Error(`Unparsable BodyElement encountered: \`${s}\``)
-		}
-		const { ans: { color, prof, dest }, rest } = try_munch;
-		if (rest !== "") { throw new Error(`Trailing  \`${rest}\` found`) }
+	const try_munch_from_hand = munchFromHand(s);
+	if (try_munch_from_hand) {
+		const { ans: { color, prof, dest }, rest } = try_munch_from_hand;
+		if (rest !== "") { throw new Error(`Cannot handle trailing \`${rest}\` found within  \`${s}\``) }
 		return {
 			"type": "normal_move",
 			movement: {
@@ -69,6 +127,11 @@ export function handleBodyElement(s: string): BodyElement {
 				}
 			}
 		}
+	}
+
+	const try_munch_src = munchCoord(s);
+	if (!try_munch_src) {
+		throw new Error(`Unparsable BodyElement encountered: \`${s}\``)
 	}
 	const { ans: src, rest } = try_munch_src;
 
