@@ -1,5 +1,6 @@
-type Parsed = { starting_players: string | undefined }
+type Parsed = { starting_players: string | undefined, starting_time: string | undefined, ending_time: string | undefined, }
 
+// Very primitive parser that never handles all the edge cases
 export function foo(s: string): Parsed {
 	const lines = s.trim().split("\n").map(l => l.trim());
 
@@ -13,7 +14,9 @@ export function foo(s: string): Parsed {
 		throw new Error("棋譜が {一位色: で始まっていません。")
 	}
 
-	const starting_players = initial_line.match(/^\{一位色:([黒赤]+)}$/)?.[1];
+	const starting_players = initial_line.match(/^\{一位色:([黒赤]+)\}$/)?.[1];
+	const starting_time = lines[1]?.match(/^\{始時:([^}]+)\}$/)?.[1];
+	const ending_time = lines[2]?.match(/^\{終時:([^}]+)\}$/)?.[1];
 	console.log(lines);
-	return { starting_players };
+	return { starting_players, starting_time, ending_time };
 }

@@ -118,8 +118,16 @@ NI片CAIPIA橋二手黒筆
 星一周`;
 
 test('main test', () => {
-	expect(foo(case1)).toEqual({ starting_players: '黒黒黒' });
-	expect(foo(case2)).toEqual({ starting_players: '黒黒赤赤' });
+	expect(foo(case1)).toEqual({
+		"starting_players": "黒黒黒",
+		"starting_time": "2022-05-31T17:16:02.433Z",
+		"ending_time": "2022-05-31T18:13:52.357Z",
+	});
+	expect(foo(case2)).toEqual({
+		starting_players: '黒黒赤赤',
+		starting_time: "2021-11-20T07:52:51.743Z", 
+		ending_time: "2021-11-20T08:12:18.137Z"
+	});
 });
 
 test('cannot find', () => {
