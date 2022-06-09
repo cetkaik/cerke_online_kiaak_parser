@@ -166,6 +166,9 @@ export function handleBodyElement(s: string): BodyElement {
 	const try_munch_3rd_coord = munchCoord(rest2);
 
 	if (!try_munch_3rd_coord) {
+		if (rest2 !== "無撃裁") {
+			throw new Error(`todo: suffix other than 無撃裁`)
+		}
 		return {
 			"type": "normal_move",
 			movement: {
@@ -180,7 +183,7 @@ export function handleBodyElement(s: string): BodyElement {
 		const { ans: third_coord, rest: rest3 } = try_munch_3rd_coord;
 
 		if (rest3 !== "無撃裁") {
-			throw new Error(`Unparsable BodyElement encountered: \`${s}\``)
+			throw new Error(`todo: suffix other than 無撃裁`)
 		}
 
 		return {
@@ -195,5 +198,4 @@ export function handleBodyElement(s: string): BodyElement {
 			}
 		}
 	}
-
 }

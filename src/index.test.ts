@@ -55,6 +55,7 @@ test("yaku", () => {
 		hands: ["王", "獣"],
 		score: 8
 	});
+	expect(() => handleBodyElement("或為あいうえお")).toThrow();
 })
 
 test("fromHand", () => {
