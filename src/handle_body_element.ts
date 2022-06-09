@@ -5,7 +5,7 @@ import { Munch, liftM2, liftM3, sepBy1, string } from "./munch_monad";
 
 
 
-type BodyElement = { "type": "normal_move", movement: NormalMove }
+export type BodyElement = { "type": "normal_move", movement: NormalMove }
 	| { "type": "end_season" }
 	| { "type": "game_set" }
 	| { "type": "season_ends", season: Season }
@@ -105,6 +105,14 @@ export function handleYaku(s: string): BodyElement {
 	return { type: "taxot", hands, score }
 }
 
+//
+export function handleTrailingParameters(s: string) {
+	console.log(s);
+	//if (s !== "無撃裁") {
+	//	throw new Error(`todo: suffix other than 無撃裁`)
+	//}
+}
+
 export function handleBodyElement(s: string): BodyElement {
 	if (s === "春終") { return { "type": "season_ends", season: 0 }; }
 	if (s === "夏終") { return { "type": "season_ends", season: 1 }; }
@@ -152,9 +160,7 @@ export function handleBodyElement(s: string): BodyElement {
 	const try_munch_3rd_coord = munchCoord(rest2);
 
 	if (!try_munch_3rd_coord) {
-		if (rest2 !== "無撃裁") {
-			throw new Error(`todo: suffix other than 無撃裁`)
-		}
+		handleTrailingParameters(rest2);
 		return {
 			"type": "normal_move",
 			movement: {
@@ -167,11 +173,7 @@ export function handleBodyElement(s: string): BodyElement {
 		}
 	} else {
 		const { ans: third_coord, rest: rest3 } = try_munch_3rd_coord;
-
-		if (rest3 !== "無撃裁") {
-			throw new Error(`todo: suffix other than 無撃裁`)
-		}
-
+		handleTrailingParameters(rest3);
 		return {
 			"type": "normal_move",
 			movement: {
