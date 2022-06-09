@@ -1,3 +1,8 @@
+/*-----------------------------------------------------
+ * Copied & pasted from https://github.com/jurliyuuri/cerke_online_alpha/blob/b01330b08b791cb97b67d47d5b7479c7b51dcf7b/src/to_digits.ts
+ * I should make this an npm package and export it, rather than copying & pasitng the code ...
+ */
+
 type Digit =
 	| "num00"
 	| "num01"
@@ -106,6 +111,8 @@ function toDigitsSub(num: number): Digit[] {
 		}
 	}
 }
+
+/*-----------------------------------------------------*/
 
 import { fromDigitsLinzklar } from "./read_pekzep_numerals";
 
