@@ -73,16 +73,36 @@ export function handleBodyElement(s: string): BodyElement {
 	}
 	const { ans: second_coord, rest: rest2 } = try_munch_2nd_coord;
 
-	return {
-		"type": "normal_move",
-		movement: {
-			type: "NonTamMove", data: {
-				type: "SrcDst",
-				src,
-				dest: second_coord
+	const try_munch_3rd_coord = munchCoord(rest2);
+
+	if (!try_munch_3rd_coord) {
+		return {
+			"type": "normal_move",
+			movement: {
+				type: "NonTamMove", data: {
+					type: "SrcDst",
+					src,
+					dest: second_coord
+				}
+			}
+		}
+	} else {
+		const { ans: third_coord, rest: rest3 } = try_munch_3rd_coord;
+
+		return {
+			"type": "normal_move",
+			movement: {
+				type: "NonTamMove", data: {
+					type: "SrcStepDstFinite",
+					src,
+					step: second_coord,
+					dest: third_coord
+				}
 			}
 		}
 	}
+
+
 
 	throw new Error(`Unparsable BodyElement encountered: \`${s}\``)
 }
