@@ -1,4 +1,25 @@
-import { foo } from './index';
+import { foo, handleBodyElement } from './index';
+
+test('seasons', () => {
+	expect(handleBodyElement("春終")).toEqual({ "type": "season_ends", season: 0 });
+	expect(handleBodyElement("夏終")).toEqual({ "type": "season_ends", season: 1 });
+	expect(handleBodyElement("秋終")).toEqual({ "type": "season_ends", season: 2 });
+	expect(handleBodyElement("冬終")).toEqual({ "type": "season_ends", season: 3 });
+	expect(handleBodyElement("終季")).toEqual({ "type": "end_season" });
+});
+test('無撃裁', () => {
+	expect(handleBodyElement("CAI兵CAU無撃裁")).toEqual({
+		"type": "normal_move",
+		movement: {
+			type: "NonTamMove", data: {
+				type: "SrcDst",
+				src: ["AI", "C"],
+				dest: ["AU", "C"]
+			}
+		}
+	});
+});
+
 
 const case1 =
 	`{一位色:黒黒黒}
@@ -125,7 +146,7 @@ test('main test', () => {
 	});
 	expect(foo(case2)).toEqual({
 		starting_players: '黒黒赤赤',
-		starting_time: "2021-11-20T07:52:51.743Z", 
+		starting_time: "2021-11-20T07:52:51.743Z",
 		ending_time: "2021-11-20T08:12:18.137Z"
 	});
 });
