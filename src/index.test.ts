@@ -1,7 +1,7 @@
 import { foo } from './index';
 
-const case1 = 
-`{一位色:黒黒黒}
+const case1 =
+	`{一位色:黒黒黒}
 {始時:2022-05-31T17:16:02.433Z}
 {終時:2022-05-31T18:13:52.357Z}
 MAU弓MAIMY橋五    PE巫PIPU無撃裁
@@ -50,8 +50,76 @@ TY虎NOLU無撃裁手赤兵
 
 星一周`;
 
+const case2 = `{一位色:黒黒赤赤}
+{始時:2021-11-20T07:52:51.743Z}
+{終時:2021-11-20T08:12:18.137Z}
+LAU片TAUZAU橋二    LE片LILU橋三
+LAI片LY無撃裁    LU片LY無撃裁手赤兵
+TAU片NAILY橋一手赤弓    XE片ZITU無撃裁
+ZAU片LAU無撃裁    KE片LE無撃裁
+MAU片XAUTAU橋一此無    TU片LYNAI無撃裁手黒兵
+KAU片KAINAI橋三手黒虎    ME片MIMU橋二
+NAI片NALA橋四手黒馬
+
+或為同色獣而手五
+終季    春終
+
+PAU片PAIPY無撃裁    XE片ZIXU無撃裁
+PY片TY無撃裁    ZO皇[ZU]ZIZE
+ZIA片TIANAU無撃裁    XU片TY無撃裁手赤巫
+PIA片PAU無撃裁    TY片LU無撃裁
+MAU片MIAPIA橋二    ZI片ZAI無撃裁手黒船
+NAU片NAITY無撃裁    NI片TITU無撃裁
+TY片TAINAU無撃裁    TA片TENI無撃裁
+NAU片LAILY無撃裁    XA片ZATA無撃裁
+MIA片XAITO水二此無    ZA片TENE無撃裁
+XAU片ZAIXY無撃裁    LU片KO無撃裁
+LY片NO水三    NI片TUNO水一此無
+XY片ZAITY無撃裁    NI片TUNO水二此無
+TAI片TYTO水一此無    NI片TUNO水二此無
+KAI片KY無撃裁    NI片TUNO水四手黒王
+
+或為王而手五
+終季    夏終
+
+LE片LILU橋四    NAI片NY無撃裁
+NI片NE無撃裁    NY片NO水四
+KE片NENI無撃裁    CAI片XAIXY無撃裁
+NI片NIALIA橋三手赤馬    KIA片LIA無撃裁手赤巫
+ZO皇[ZU]ZIZE    ZAI片ZI無撃裁手赤船
+XI片ZI水二此無    ZIA片XAUZAI水三
+XI片ZI水四手黒船    TIA片ZAU無撃裁
+LU片CU無撃裁    ZAU片XAUCAI無撃裁
+CU片ZU水三    CAI片MY無撃裁
+ZU片ZAI無撃裁手黒王
+
+或為行行加王加獣而手十三
+終季    秋終
+
+LE片LILU橋四    CAI片CAU無撃裁
+NI片NE無撃裁    NIA片NAIKO無撃裁
+KE片NENI無撃裁    KO片KINI無撃裁手赤巫
+TE片NI無撃裁手赤車    MAU片MAIMO橋五
+CI片MIMU無撃裁    PAU片CAUCAI無撃裁
+ZO皇[ZU]ZIZE    MO片ZO水三
+ZI片ZO無撃裁手赤弓    XIA片ZAU無撃裁
+ZO片ZAI無撃裁手黒船    TIA片ZAUZAI水四手赤船
+LU片MUMO橋二    CAI片MAU無撃裁
+ME片CE無撃裁    ZAI片XAUCAI無撃裁
+CE片CAI無撃裁手赤将    CAU片CAI無撃裁手黒弓
+MO片MAIMAU橋一手赤巫    MIA片XAITIA無撃裁
+MAU片XAU無撃裁手赤虎    ZIA片TIANIA無撃裁
+NI片CAIPIA橋二手黒筆
+
+或為地心而手七
+終季    冬終
+
+
+星一周`;
+
 test('main test', () => {
-    expect(foo(case1)).toEqual({foo: 1});
+	expect(foo(case1)).toEqual({ starting_players: '黒黒黒' });
+	expect(foo(case2)).toEqual({ starting_players: '黒黒赤赤' });
 });
 
 test('cannot find', () => {
