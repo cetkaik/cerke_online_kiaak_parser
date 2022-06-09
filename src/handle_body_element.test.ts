@@ -62,6 +62,8 @@ test("yaku", () => {
 		score: 7
 	});
 	expect(() => handleBodyElement("或為あいうえお")).toThrow();
+	expect(() => handleBodyElement("或為同色馬弓兵而手あいうえお")).toThrow();
+	expect(() => handleBodyElement("或為同色馬弓兵而手無無無")).toThrow();
 })
 
 test("fromHand", () => {
