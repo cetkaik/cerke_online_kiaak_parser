@@ -1,4 +1,4 @@
-import { foo, handleBodyElement } from './index';
+import { foo, handleBodyElement, munchCoord, munchFromHand } from './index';
 
 test('seasons', () => {
 	expect(handleBodyElement("春終")).toEqual({ "type": "season_ends", season: 0 });
@@ -7,6 +7,45 @@ test('seasons', () => {
 	expect(handleBodyElement("冬終")).toEqual({ "type": "season_ends", season: 3 });
 	expect(handleBodyElement("終季")).toEqual({ "type": "end_season" });
 });
+test('munchCoord', () => {
+	expect(munchCoord("CAIあ")).toEqual({ ans: ["AI", "C"], rest: "あ" });
+	expect(munchCoord("CA")).toEqual({ ans: ["A", "C"], rest: "" });
+	expect(munchCoord("C")).toBe(null);
+});
+
+test("fromHand", () => {
+	expect(handleBodyElement("黒弓MY")).toEqual({
+		"type": "normal_move",
+		movement: {
+			type: "NonTamMove", data: {
+				type: "FromHand",
+				color: 1,
+				prof: 2,
+				dest: ["Y", "M"]
+			}
+		}
+	});
+	expect(() => handleBodyElement("あ")).toThrow();
+})
+
+test('wrong prof', () => {
+	expect(() => handleBodyElement("CAIあ")).toThrow()
+});
+
+test('munchFromhand', () => {
+	expect(munchFromHand("")).toBe(null)
+	expect(munchFromHand("黒")).toBe(null)
+	expect(munchFromHand("黒弓")).toBe(null)
+	expect(munchFromHand("黒弓M")).toBe(null)
+	expect(munchFromHand("黒弓MY")).toEqual({
+		ans: {
+			color: 1,
+			prof: 2,
+			dest: ["Y", "M"]
+		}, rest: ""
+	})
+});
+
 test('無撃裁', () => {
 	expect(handleBodyElement("CAI兵CAU無撃裁")).toEqual({
 		"type": "normal_move",

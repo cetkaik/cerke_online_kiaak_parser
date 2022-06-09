@@ -1,5 +1,5 @@
-import { AbsoluteColumn, AbsoluteCoord, AbsoluteRow, NormalMove, Season } from "cerke_online_api";
-import { Munch, liftM2 } from "./munch_monad";
+import { AbsoluteColumn, AbsoluteCoord, AbsoluteRow, Color, NormalMove, Profession, Season } from "cerke_online_api";
+import { Munch, liftM2, liftM3 } from "./munch_monad";
 
 type Parsed = { starting_players: string | undefined, starting_time: string | undefined, ending_time: string | undefined, }
 
@@ -30,6 +30,26 @@ type BodyElement = { "type": "normal_move", movement: NormalMove }
 	| { "type": "end_season" }
 	| { "type": "season_ends", season: Season };
 
+const munchColor: Munch<Color> = (s: string) => {
+	if (s.charAt(0) === "赤") { return { ans: 0, rest: s.slice(1) } }
+	if (s.charAt(0) === "黒") { return { ans: 1, rest: s.slice(1) } }
+	return null;
+}
+
+const munchProfession: Munch<Profession> = (s: string) => {
+	if (s.charAt(0) === "船") { return { ans: 0, rest: s.slice(1) } }
+	if (s.charAt(0) === "兵") { return { ans: 1, rest: s.slice(1) } }
+	if (s.charAt(0) === "弓") { return { ans: 2, rest: s.slice(1) } }
+	if (s.charAt(0) === "車") { return { ans: 3, rest: s.slice(1) } }
+	if (s.charAt(0) === "虎") { return { ans: 4, rest: s.slice(1) } }
+	if (s.charAt(0) === "馬") { return { ans: 5, rest: s.slice(1) } }
+	if (s.charAt(0) === "筆") { return { ans: 6, rest: s.slice(1) } }
+	if (s.charAt(0) === "巫") { return { ans: 7, rest: s.slice(1) } }
+	if (s.charAt(0) === "将") { return { ans: 8, rest: s.slice(1) } }
+	if (s.charAt(0) === "王") { return { ans: 9, rest: s.slice(1) } }
+	return null;
+}
+
 const munchColumn: Munch<AbsoluteColumn> = (s: string) => {
 	const cols: AbsoluteColumn[] = ["K", "L", "N", "T", "Z", "X", "C", "M", "P"];
 	for (const col of cols) {
@@ -38,17 +58,19 @@ const munchColumn: Munch<AbsoluteColumn> = (s: string) => {
 	return null;
 }
 const munchRow: Munch<AbsoluteRow> = (s: string) => {
-	const rows: AbsoluteRow[] = ["AI", "AU", "IA" /* handle the longer ones first */, "A", "E", "I", "U", "O"];
+	const rows: AbsoluteRow[] = ["AI", "AU", "IA" /* handle the longer ones first */, "A", "E", "I", "U", "O", "Y"];
 	for (const row of rows) {
 		if (s.startsWith(row)) { return { ans: row, rest: s.slice(row.length) } }
 	}
 	return null;
 }
 
-const munchCoord: Munch<AbsoluteCoord> = liftM2((col: AbsoluteColumn, row: AbsoluteRow) => {
+export const munchCoord: Munch<AbsoluteCoord> = liftM2((col: AbsoluteColumn, row: AbsoluteRow) => {
 	const coord: AbsoluteCoord = [row, col]
 	return coord
 }, munchColumn, munchRow)
+
+export const munchFromHand = liftM3((color, prof, dest) => ({ color, prof, dest }), munchColor, munchProfession, munchCoord);
 
 export function handleBodyElement(s: string): BodyElement {
 	if (s === "春終") { return { "type": "season_ends", season: 0 }; }
@@ -59,7 +81,24 @@ export function handleBodyElement(s: string): BodyElement {
 
 	const try_munch_src = munchCoord(s);
 	if (!try_munch_src) {
-		throw new Error(`failed to find a coordinate while reading \`${s}\``)
+		// fromHand
+		const try_munch = munchFromHand(s);
+		if (!try_munch) {
+			throw new Error(`Unparsable BodyElement encountered: \`${s}\``)
+		}
+		const { ans: { color, prof, dest }, rest } = try_munch;
+		if (rest !== "") { throw new Error(`Trailing  \`${rest}\` found`) }
+		return {
+			"type": "normal_move",
+			movement: {
+				type: "NonTamMove", data: {
+					type: "FromHand",
+					color,
+					prof,
+					dest
+				}
+			}
+		}
 	}
 	const { ans: src, rest } = try_munch_src;
 
@@ -89,6 +128,10 @@ export function handleBodyElement(s: string): BodyElement {
 	} else {
 		const { ans: third_coord, rest: rest3 } = try_munch_3rd_coord;
 
+		if (rest3 !== "無撃裁") {
+			throw new Error(`Unparsable BodyElement encountered: \`${s}\``)
+		}
+
 		return {
 			"type": "normal_move",
 			movement: {
@@ -102,7 +145,4 @@ export function handleBodyElement(s: string): BodyElement {
 		}
 	}
 
-
-
-	throw new Error(`Unparsable BodyElement encountered: \`${s}\``)
 }
