@@ -6,6 +6,7 @@ test('seasons', () => {
 	expect(handleBodyElement("秋終")).toEqual({ "type": "season_ends", season: 2 });
 	expect(handleBodyElement("冬終")).toEqual({ "type": "season_ends", season: 3 });
 	expect(handleBodyElement("終季")).toEqual({ "type": "end_season" });
+	expect(handleBodyElement("星一周")).toEqual({ "type": "game_set" });
 });
 
 test("hmm", () => { expect(() => handleBodyElement("あ")).toThrow(); })

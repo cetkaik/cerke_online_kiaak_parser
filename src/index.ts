@@ -30,6 +30,7 @@ export function foo(s: string): Parsed {
 
 type BodyElement = { "type": "normal_move", movement: NormalMove }
 	| { "type": "end_season" }
+	| { "type": "game_set" }
 	| { "type": "season_ends", season: Season }
 	| { "type": "tymok", hands: Hand[] }
 	| { "type": "taxot", hands: Hand[], score: number };
@@ -126,6 +127,7 @@ export function handleBodyElement(s: string): BodyElement {
 	if (s === "秋終") { return { "type": "season_ends", season: 2 }; }
 	if (s === "冬終") { return { "type": "season_ends", season: 3 }; }
 	if (s === "終季") { return { "type": "end_season" }; }
+	if (s === "星一周") { return { "type": "game_set" }; }
 
 	if (s.includes("為")) { return handleYaku(s); }
 	if (s.includes("皇")) { return handleTamMove(s); }
