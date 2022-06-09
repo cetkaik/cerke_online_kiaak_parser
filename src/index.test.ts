@@ -45,6 +45,18 @@ test("tammove", () => {
 	});
 })
 
+test("yaku", () => {
+	expect(handleBodyElement("或為王加獣")).toEqual({
+		"type": "tymok",
+		hands: ["王", "獣"]
+	});
+	expect(handleBodyElement("或為王加獣而手八")).toEqual({
+		"type": "taxot",
+		hands: ["王", "獣"],
+		score: 8
+	});
+})
+
 test("fromHand", () => {
 	expect(handleBodyElement("黒弓MY")).toEqual({
 		"type": "normal_move",

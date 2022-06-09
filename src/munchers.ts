@@ -1,5 +1,6 @@
 import { Color, Profession, AbsoluteColumn, AbsoluteRow, AbsoluteCoord } from "cerke_online_api";
-import { Munch, liftM2, liftM3, exact } from "./munch_monad";
+import { Hand } from "cerke_hands_and_score"
+import { Munch, liftM2, liftM3, string } from "./munch_monad";
 
 const munchColor: Munch<Color> = (s: string) => {
 	if (s.charAt(0) === "赤") { return { ans: 0, rest: s.slice(1) } }
@@ -36,6 +37,16 @@ const munchRow: Munch<AbsoluteRow> = (s: string) => {
 	return null;
 }
 
+export const munchHand: Munch<Hand> = (s: string) => {
+	const hands: Hand[] = ["王", "獣", "同色獣", "地心", "同色地心", "馬弓兵", "同色馬弓兵",
+		"助友", "同色助友", "戦集", "同色戦集", "行行", "同色行行", "筆兵無傾", "同色筆兵無傾",
+		"闇戦之集", "同色闇戦之集", "無抗行処", "同色無抗行処"];
+	for (const hand of hands) {
+		if (s.startsWith(hand)) { return { ans: hand, rest: s.slice(hand.length) } }
+	}
+	return null;
+}
+
 export const munchCoord: Munch<AbsoluteCoord> = liftM2((col: AbsoluteColumn, row: AbsoluteRow) => {
 	const coord: AbsoluteCoord = [row, col]
 	return coord
@@ -43,4 +54,4 @@ export const munchCoord: Munch<AbsoluteCoord> = liftM2((col: AbsoluteColumn, row
 
 export const munchFromHand = liftM3((color, prof, dest) => ({ color, prof, dest }), munchColor, munchProfession, munchCoord);
 
-export const munchBracketedCoord: Munch<AbsoluteCoord> = liftM3((_1, coord, _2) => coord, exact("["), munchCoord, exact("]"));
+export const munchBracketedCoord: Munch<AbsoluteCoord> = liftM3((_1, coord, _2) => coord, string("["), munchCoord, string("]"));

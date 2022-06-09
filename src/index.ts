@@ -1,6 +1,7 @@
+import { Hand } from "cerke_hands_and_score";
 import { AbsoluteColumn, AbsoluteCoord, AbsoluteRow, Color, NormalMove, Profession, Season } from "cerke_online_api";
-import { munchBracketedCoord, munchCoord, munchFromHand } from "./munchers";
-import { Munch, liftM2, liftM3 } from "./munch_monad";
+import { munchBracketedCoord, munchCoord, munchFromHand as munchFromHopZuo, munchHand } from "./munchers";
+import { Munch, liftM2, liftM3, sepBy1, string } from "./munch_monad";
 
 type Parsed = { starting_players: string | undefined, starting_time: string | undefined, ending_time: string | undefined, }
 
@@ -29,7 +30,9 @@ export function foo(s: string): Parsed {
 
 type BodyElement = { "type": "normal_move", movement: NormalMove }
 	| { "type": "end_season" }
-	| { "type": "season_ends", season: Season };
+	| { "type": "season_ends", season: Season }
+	| { "type": "tymok", hands: Hand[] }
+	| { "type": "taxot", hands: Hand[], score: number };
 
 export function handleTamMove(s: string): BodyElement {
 	const try_munch_src = munchCoord(s);
@@ -99,6 +102,21 @@ export function handleTamMove(s: string): BodyElement {
 }
 
 export function handleYaku(s: string): BodyElement {
+	// 或為王加獣
+	// 或為王加獣而手八
+	const handsSepByAt: Munch<Hand[]> = sepBy1({ p: munchHand, sep: string("加") });
+	const munch = liftM2((_, hands) => hands, string("或為"), handsSepByAt)(s);
+	if (!munch) {
+		throw new Error(`Unparsable BodyElement encountered: \`${s}\``)
+	}
+
+	const { ans: hands, rest } = munch;
+	if (rest === "") {
+		return { type: "tymok", hands }
+	} else if (rest === "而手八") {
+		return { type: "taxot", hands, score: 8 }
+	}
+
 	throw new Error("todo")
 }
 
@@ -109,12 +127,12 @@ export function handleBodyElement(s: string): BodyElement {
 	if (s === "冬終") { return { "type": "season_ends", season: 3 }; }
 	if (s === "終季") { return { "type": "end_season" }; }
 
-	if (s.includes("或")) { return handleYaku(s); }
+	if (s.includes("為")) { return handleYaku(s); }
 	if (s.includes("皇")) { return handleTamMove(s); }
 
-	const try_munch_from_hand = munchFromHand(s);
-	if (try_munch_from_hand) {
-		const { ans: { color, prof, dest }, rest } = try_munch_from_hand;
+	const try_munch_from_hopzuo = munchFromHopZuo(s);
+	if (try_munch_from_hopzuo) {
+		const { ans: { color, prof, dest }, rest } = try_munch_from_hopzuo;
 		if (rest !== "") { throw new Error(`Cannot handle trailing \`${rest}\` found within  \`${s}\``) }
 		return {
 			"type": "normal_move",
