@@ -56,6 +56,11 @@ test("yaku", () => {
 		hands: ["王", "獣"],
 		score: 8
 	});
+	expect(handleBodyElement("或為同色馬弓兵而手七")).toEqual({
+		"type": "taxot",
+		hands: ["同色馬弓兵"],
+		score: 7
+	});
 	expect(() => handleBodyElement("或為あいうえお")).toThrow();
 })
 

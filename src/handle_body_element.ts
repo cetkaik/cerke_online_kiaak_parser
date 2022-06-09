@@ -1,6 +1,6 @@
 import { Hand } from "cerke_hands_and_score";
 import { NormalMove, Season } from "cerke_online_api";
-import { munchBracketedCoord, munchCoord, munchFromHand as munchFromHopZuo, munchHand } from "./munchers";
+import { munchBracketedCoord, munchCoord, munchFromHand as munchFromHopZuo, munchHand, munchPekzepNumeral } from "./munchers";
 import { Munch, liftM2, liftM3, sepBy1, string } from "./munch_monad";
 
 
@@ -91,11 +91,18 @@ export function handleYaku(s: string): BodyElement {
 	const { ans: hands, rest } = munch;
 	if (rest === "") {
 		return { type: "tymok", hands }
-	} else if (rest === "而手八") {
-		return { type: "taxot", hands, score: 8 }
+	}
+	const munch2 = liftM2((_, num) => num, string("而手"), munchPekzepNumeral)(rest);
+	if (!munch2) {
+		throw new Error(`Unparsable BodyElement encountered: \`${s}\``)
+	}
+	const { ans: score, rest: rest2 } = munch2;
+
+	if (rest2 !== "") {
+		throw new Error(`Cannot handle trailing \`${rest}\` found within  \`${s}\``)
 	}
 
-	throw new Error("todo")
+	return { type: "taxot", hands, score }
 }
 
 export function handleBodyElement(s: string): BodyElement {

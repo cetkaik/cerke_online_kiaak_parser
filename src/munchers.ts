@@ -1,6 +1,7 @@
 import { Color, Profession, AbsoluteColumn, AbsoluteRow, AbsoluteCoord } from "cerke_online_api";
 import { Hand } from "cerke_hands_and_score"
-import { Munch, liftM2, liftM3, string } from "./munch_monad";
+import { Munch, liftM2, liftM3, string, many1 } from "./munch_monad";
+import { DigitLinzklar, fromDigitsLinzklar } from "./read_pekzep_numerals";
 
 const munchColor: Munch<Color> = (s: string) => {
 	if (s.charAt(0) === "赤") { return { ans: 0, rest: s.slice(1) } }
@@ -55,3 +56,23 @@ export const munchCoord: Munch<AbsoluteCoord> = liftM2((col: AbsoluteColumn, row
 export const munchFromHand = liftM3((color, prof, dest) => ({ color, prof, dest }), munchColor, munchProfession, munchCoord);
 
 export const munchBracketedCoord: Munch<AbsoluteCoord> = liftM3((_1, coord, _2) => coord, string("["), munchCoord, string("]"));
+
+const munchDigitLinzklar: Munch<DigitLinzklar> = (s: string) => {
+	const ds: DigitLinzklar[] = ["無", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "下", "百"];
+	for (const d of ds) {
+		if (s.startsWith(d)) { return { ans: d, rest: s.slice(1) } }
+	}
+	return null;
+}
+
+export const munchPekzepNumeral: Munch<number> = (s: string) => {
+	const t1 = many1(munchDigitLinzklar)(s);
+	if (!t1) return null;
+	const { ans, rest } = t1;
+	try {
+		const num = fromDigitsLinzklar(ans)
+		return { ans: num, rest };
+	} catch(e: unknown) {
+		return null;
+	}
+}

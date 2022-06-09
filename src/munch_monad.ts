@@ -40,6 +40,20 @@ export const many: <A>(ma: Munch<A>) => Munch<A[]> = <A>(ma: Munch<A>) => input 
 	}
 };
 
+export const many1: <A>(ma: Munch<A>) => Munch<A[]> = <A>(ma: Munch<A>) => input => {	
+	const res1 = ma(input);
+	if (res1 === null) return null;
+	let { ans: a, rest } = res1;
+	const ans: A[] = [a];
+	while (true) {
+		const res1 = ma(rest);
+		if (res1 === null) return { ans, rest };
+		const { ans: a, rest: r } = res1;
+		ans.push(a);
+		rest = r;
+	}
+};
+
 export const sepBy1: <A, Sep>(o: { p: Munch<A>, sep: Munch<Sep> }) => Munch<A[]> = ({ p: ma, sep }) =>
 	bind(ma, a =>
 		bind(many(bind(sep, (_) => ma)), as =>
