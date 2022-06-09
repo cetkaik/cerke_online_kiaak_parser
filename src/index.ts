@@ -1,4 +1,5 @@
-import { NormalMove, Season } from "cerke_online_api";
+import { AbsoluteColumn, AbsoluteCoord, AbsoluteRow, NormalMove, Season } from "cerke_online_api";
+import { Munch, liftM2 } from "./munch_monad";
 
 type Parsed = { starting_players: string | undefined, starting_time: string | undefined, ending_time: string | undefined, }
 
@@ -29,6 +30,25 @@ type BodyElement = { "type": "normal_move", movement: NormalMove }
 	| { "type": "end_season" }
 	| { "type": "season_ends", season: Season };
 
+const munchColumn: Munch<AbsoluteColumn> = (s: string) => {
+	const cols: AbsoluteColumn[] = ["K", "L", "N", "T", "Z", "X", "C", "M", "P"];
+	for (const col of cols) {
+		if (s.charAt(0) === col) { return { ans: col, rest: s.slice(1) } }
+	}
+	return null;
+}
+const munchRow: Munch<AbsoluteRow> = (s: string) => {
+	const rows: AbsoluteRow[] = ["AI", "AU", "IA" /* handle the longer ones first */, "A", "E", "I", "U", "O"];
+	for (const row of rows) {
+		if (s.startsWith(row)) { return { ans: row, rest: s.slice(row.length) } }
+	}
+	return null;
+}
+
+const munchCoord: Munch<AbsoluteCoord> = liftM2((col: AbsoluteColumn, row: AbsoluteRow) => {
+	const coord: AbsoluteCoord = [row, col]
+	return coord
+}, munchColumn, munchRow)
 
 export function handleBodyElement(s: string): BodyElement {
 	if (s === "春終") { return { "type": "season_ends", season: 0 }; }
@@ -37,14 +57,32 @@ export function handleBodyElement(s: string): BodyElement {
 	if (s === "冬終") { return { "type": "season_ends", season: 3 }; }
 	if (s === "終季") { return { "type": "end_season" }; }
 
+	const try_munch_src = munchCoord(s);
+	if (!try_munch_src) {
+		throw new Error(`failed to find a coordinate while reading \`${s}\``)
+	}
+	const { ans: src, rest } = try_munch_src;
+
+	if (!["兵", "弓", "車", "虎", "馬", "筆", "巫", "将", "王", "船", "片"].includes(rest.charAt(0))) {
+		throw new Error(`failed to find a profession while reading \`${s}\``);
+	}
+
+	const try_munch_2nd_coord = munchCoord(rest.slice(1));
+	if (!try_munch_2nd_coord) {
+		throw new Error(`failed to find the second coordinate while reading \`${s}\``)
+	}
+	const { ans: second_coord, rest: rest2 } = try_munch_2nd_coord;
+
 	return {
 		"type": "normal_move",
 		movement: {
 			type: "NonTamMove", data: {
 				type: "SrcDst",
-				src: ["AI", "C"],
-				dest: ["AU", "C"]
+				src,
+				dest: second_coord
 			}
 		}
 	}
+
+	throw new Error(`Unparsable BodyElement encountered: \`${s}\``)
 }

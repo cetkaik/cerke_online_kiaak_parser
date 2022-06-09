@@ -19,6 +19,22 @@ test('無撃裁', () => {
 		}
 	});
 });
+/*
+test('無撃裁2', () => {
+	expect(handleBodyElement("PAU巫CAUCAI無撃裁")).toEqual({
+		"type": "normal_move",
+		movement: {
+			type: "NonTamMove", data: {
+				type: "SrcStepDstFinite",
+				src: ["AI", "P"],
+				step: ["AU", "C"],
+				dest: ["AI", "C"],
+			}
+		}
+	});
+});
+*/
+
 
 
 const case1 =
