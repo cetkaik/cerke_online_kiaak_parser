@@ -1,11 +1,37 @@
 import { Hand } from "cerke_hands_and_score";
-import { Color, NormalMove, Profession, Season } from "cerke_online_api";
+import { AbsoluteCoord, Color, Profession, Season, TamMove } from "cerke_online_api";
 import { munchBracketedCoord, munchCoord, munchFromHopZuo as munchFromHopZuo, munchHand, munchPekzepNumeral, munchPieceCaptureComment } from "./munchers";
 import { Munch, liftM2, liftM3, sepBy1, string } from "./munch_monad";
 
+export interface NormalNonTamMoveExceptFromHopzuo {
+	type: "NonTamMove";
+	data: {
+		type: "SrcDst";
+		src: AbsoluteCoord;
+		dest: AbsoluteCoord;
+	} | {
+		type: "SrcStepDstFinite";
+		src: AbsoluteCoord;
+		step: AbsoluteCoord;
+		dest: AbsoluteCoord;
+	};
+}
 
-
-export type BodyElement = { "type": "normal_move", movement: NormalMove }
+type CiurlAndCapture = { ciurl_event: CiurlEvent, piece_capture?: { color: Color, prof: Profession } };
+export type BodyElement =
+	{ "type": "normal_move", movement: NormalNonTamMoveExceptFromHopzuo, ciurl_and_capture: CiurlAndCapture }
+	| {
+		"type": "normal_move", movement: {
+			type: "NonTamMove";
+			data: {
+				type: "FromHand";
+				color: Color;
+				prof: Profession;
+				dest: AbsoluteCoord;
+			}
+		}
+	}
+	| { "type": "normal_move", movement: TamMove }
 	| { "type": "end_season" }
 	| { "type": "game_set" }
 	| { "type": "season_ends", season: Season }
@@ -170,6 +196,10 @@ export function handleTrailingParameters(s: string): { ciurl_event: CiurlEvent, 
 	const optional_piece_capture = munchPieceCaptureComment(rest);
 	if (optional_piece_capture) {
 		const { ans: piece_capture, rest: rest2 } = optional_piece_capture;
+
+		if (rest2 !== "") {
+			throw new Error(`Trailing parameter \`${s}\` has some extra \`${rest2}\` at the end`)
+		}
 		return { ciurl_event, piece_capture }
 	} else {
 		throw new Error(`Unparsable trailing parameter: \`${s}\``)
@@ -223,7 +253,7 @@ export function handleBodyElement(s: string): BodyElement {
 	const try_munch_3rd_coord = munchCoord(rest2);
 
 	if (!try_munch_3rd_coord) {
-		handleTrailingParameters(rest2);
+		const ciurl_and_capture = handleTrailingParameters(rest2);
 		return {
 			"type": "normal_move",
 			movement: {
@@ -232,11 +262,12 @@ export function handleBodyElement(s: string): BodyElement {
 					src,
 					dest: second_coord
 				}
-			}
+			},
+			ciurl_and_capture
 		}
 	} else {
 		const { ans: third_coord, rest: rest3 } = try_munch_3rd_coord;
-		handleTrailingParameters(rest3);
+		const ciurl_and_capture = handleTrailingParameters(rest3);
 		return {
 			"type": "normal_move",
 			movement: {
@@ -246,7 +277,7 @@ export function handleBodyElement(s: string): BodyElement {
 					step: second_coord,
 					dest: third_coord
 				}
-			}
+			}, ciurl_and_capture
 		}
 	}
 }

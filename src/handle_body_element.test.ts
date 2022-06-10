@@ -64,6 +64,7 @@ test("yaku", () => {
 	expect(() => handleBodyElement("或為あいうえお")).toThrow();
 	expect(() => handleBodyElement("或為同色馬弓兵而手あいうえお")).toThrow();
 	expect(() => handleBodyElement("或為同色馬弓兵而手無無無")).toThrow();
+	expect(() => handleBodyElement("或為同色馬弓兵而手七ゆ")).toThrow();
 })
 
 test("fromHand", () => {
@@ -85,6 +86,36 @@ test('wrong prof', () => {
 	expect(() => handleBodyElement("CAIあ")).toThrow()
 });
 
+test("wrong second coord", () => {
+	expect(() => handleBodyElement("TIA片Z")).toThrow()
+})
+
+
+test('contains tam but broken', () => {
+	expect(() => handleBodyElement("C皇")).toThrow()
+	expect(() => handleBodyElement("CAI炎皇")).toThrow()
+});
+
+test("water", () => {
+	expect(handleBodyElement("TIA片ZAUZAI水四手赤船")).toEqual({
+		"type": "normal_move",
+		movement: {
+			type: "NonTamMove", data: {
+				type: "SrcStepDstFinite",
+				src: ["IA", "T"],
+				step: ["AU", "Z"],
+				dest: ["AI", "Z"],
+			}
+		}, "ciurl_and_capture": { ciurl_event: { water_entry_ciurl: 4 }, piece_capture: { color: 0, prof: 0 } }
+	})
+
+	expect(() => handleBodyElement("TIA片ZAUZAI水面下")).toThrow()
+	expect(() => handleBodyElement("TIA片ZAUZAI水四面下")).toThrow()
+	expect(() => handleBodyElement("TIA片ZAUZAI水四手赤船面下")).toThrow()
+
+})
+
+
 test('無撃裁', () => {
 	expect(handleBodyElement("CAI兵CAU無撃裁")).toEqual({
 		"type": "normal_move",
@@ -94,7 +125,7 @@ test('無撃裁', () => {
 				src: ["AI", "C"],
 				dest: ["AU", "C"]
 			}
-		}
+		}, "ciurl_and_capture": { ciurl_event: {} }
 	});
 });
 
@@ -108,7 +139,7 @@ test('無撃裁2', () => {
 				step: ["AU", "C"],
 				dest: ["AI", "C"],
 			}
-		}
+		}, "ciurl_and_capture": { ciurl_event: {} }
 	});
 });
 
