@@ -4,7 +4,7 @@ type Parsed = {
 	starting_players: string | undefined,
 	starting_time: string | undefined,
 	ending_time: string | undefined,
-	//parsed_bodies: BodyElement[]
+	parsed_bodies: BodyElement[]
 }
 
 // Very primitive parser that never handles all the edge cases
@@ -26,7 +26,6 @@ export function foo(s: string): Parsed {
 	const ending_time = lines[2]?.match(/^\{終時:([^}]+)\}$/)?.[1];
 
 	const bodies = lines.slice(3).flatMap(line => line.split(/[\s\n]/g)).filter(a => a !== "");
-	// console.log(bodies);
-	const parsed_bodies = bodies.map(handleBodyElement)
-	return { starting_players, starting_time, ending_time };
+	const parsed_bodies = bodies.map(handleBodyElement);
+	return { starting_players, starting_time, ending_time, parsed_bodies };
 }
