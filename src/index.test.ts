@@ -1,4 +1,6 @@
-import { foo } from './index';
+import {foo} from "./index";
+
+
 
 const case1 =
 	`{一位色:黒黒黒}
@@ -125,7 +127,7 @@ test('main test', () => {
 	});
 	expect(foo(case2)).toEqual({
 		starting_players: '黒黒赤赤',
-		starting_time: "2021-11-20T07:52:51.743Z", 
+		starting_time: "2021-11-20T07:52:51.743Z",
 		ending_time: "2021-11-20T08:12:18.137Z"
 	});
 });
