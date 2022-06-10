@@ -1,6 +1,6 @@
 import { Hand } from "cerke_hands_and_score";
-import { NormalMove, Season } from "cerke_online_api";
-import { munchBracketedCoord, munchCoord, munchFromHand as munchFromHopZuo, munchHand, munchPekzepNumeral } from "./munchers";
+import { Color, NormalMove, Profession, Season } from "cerke_online_api";
+import { munchBracketedCoord, munchCoord, munchFromHopZuo as munchFromHopZuo, munchHand, munchPekzepNumeral, munchPieceCaptureComment } from "./munchers";
 import { Munch, liftM2, liftM3, sepBy1, string } from "./munch_monad";
 
 
@@ -105,12 +105,75 @@ export function handleYaku(s: string): BodyElement {
 	return { type: "taxot", hands, score }
 }
 
-//
-export function handleTrailingParameters(s: string) {
-	console.log(s);
-	//if (s !== "無撃裁") {
-	//	throw new Error(`todo: suffix other than 無撃裁`)
-	//}
+type CiurlEvent = {}
+	| { stepping_ciurl: number, infafterstep_success: boolean }
+	| { stepping_ciurl?: number, water_entry_ciurl: number };
+export const munchWaterEvent: Munch<number> = (s: string) => {
+	if (s.startsWith("水")) {
+		const t = s.slice(1);
+		if (t.startsWith("無此無")) { return { ans: 0, rest: t.slice(3) }; }
+		if (t.startsWith("一此無")) { return { ans: 1, rest: t.slice(3) }; }
+		if (t.startsWith("二此無")) { return { ans: 2, rest: t.slice(3) }; }
+		if (t.startsWith("三")) { return { ans: 3, rest: t.slice(1) } }
+		if (t.startsWith("四")) { return { ans: 4, rest: t.slice(1) } }
+		if (t.startsWith("五")) { return { ans: 5, rest: t.slice(1) } }
+	}
+	return null;
+}
+
+export const munchCiurlEvent: Munch<CiurlEvent> = (s: string) => {
+	if (s.startsWith("無撃裁")) {
+		return { ans: {}, rest: s.slice(3) };
+	}
+
+	const try_munch_water = munchWaterEvent(s);
+	if (try_munch_water) {
+		const { ans, rest } = try_munch_water;
+		return { ans: { water_entry_ciurl: ans }, rest };
+	}
+
+	if (s.startsWith("橋")) {
+		const t = s.slice(1);
+		const stepping_ciurl =
+			t[0] === "無" ? 0 :
+				t[0] === "一" ? 1 :
+					t[0] === "二" ? 2 :
+						t[0] === "三" ? 3 :
+							t[0] === "四" ? 4 :
+								t[0] === "五" ? 5 : (() => { throw new Error("Unexpected character found after 橋") });
+		const rest = t.slice(1);
+
+		// Either nothing, 此無, or munchWaterEvent
+		const try_munch_water = munchWaterEvent(rest);
+		if (try_munch_water) {
+			const { ans: water_entry_ciurl, rest: rest2 } = try_munch_water;
+			return { ans: { stepping_ciurl, water_entry_ciurl }, rest: rest2 }
+		} else if (rest.startsWith("此無")) {
+			return { ans: { stepping_ciurl, infafterstep_success: false }, rest: "" }
+		} else {
+			return { ans: { stepping_ciurl, infafterstep_success: true }, rest }
+		}
+	} else {
+		throw new Error(`Unparsable Ciurl event: \`${s}\``);
+	}
+}
+
+export function handleTrailingParameters(s: string): { ciurl_event: CiurlEvent, piece_capture?: { color: Color, prof: Profession } } {
+	const try_ciurl_event = munchCiurlEvent(s)
+	if (!try_ciurl_event) { throw new Error(`Unparsable trailing parameter: \`${s}\``) }
+	const { ans: ciurl_event, rest } = try_ciurl_event;
+
+	if (rest === "") {
+		return { ciurl_event }
+	}
+
+	const optional_piece_capture = munchPieceCaptureComment(rest);
+	if (optional_piece_capture) {
+		const { ans: piece_capture, rest: rest2 } = optional_piece_capture;
+		return { ciurl_event, piece_capture }
+	} else {
+		throw new Error(`Unparsable trailing parameter: \`${s}\``)
+	}
 }
 
 export function handleBodyElement(s: string): BodyElement {
