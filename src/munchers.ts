@@ -53,7 +53,10 @@ export const munchCoord: Munch<AbsoluteCoord> = liftM2((col: AbsoluteColumn, row
 	return coord
 }, munchColumn, munchRow)
 
-export const munchFromHand = liftM3((color, prof, dest) => ({ color, prof, dest }), munchColor, munchProfession, munchCoord);
+export const munchFromHopZuo = liftM3((color, prof, dest) => ({ color, prof, dest }), munchColor, munchProfession, munchCoord);
+
+export const munchPieceCaptureComment: Munch<{ color: Color, prof: Profession }> =
+	liftM3((_, color, prof) => ({ color, prof }), string("手"), munchColor, munchProfession);
 
 export const munchBracketedCoord: Munch<AbsoluteCoord> = liftM3((_1, coord, _2) => coord, string("["), munchCoord, string("]"));
 
@@ -72,7 +75,7 @@ export const munchPekzepNumeral: Munch<number> = (s: string) => {
 	try {
 		const num = fromDigitsLinzklar(ans)
 		return { ans: num, rest };
-	} catch(e: unknown) {
+	} catch (e: unknown) {
 		return null;
 	}
 }

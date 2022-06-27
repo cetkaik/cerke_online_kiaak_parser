@@ -1,4 +1,4 @@
-import { munchCoord, munchFromHand } from "./munchers"
+import { munchCoord, munchFromHopZuo } from "./munchers"
 
 test('munchCoord', () => {
 	expect(munchCoord("CAIあ")).toEqual({ ans: ["AI", "C"], rest: "あ" });
@@ -6,11 +6,11 @@ test('munchCoord', () => {
 	expect(munchCoord("C")).toBe(null);
 });
 test('munchFromhand', () => {
-	expect(munchFromHand("")).toBe(null)
-	expect(munchFromHand("黒")).toBe(null)
-	expect(munchFromHand("黒弓")).toBe(null)
-	expect(munchFromHand("黒弓M")).toBe(null)
-	expect(munchFromHand("黒弓MY")).toEqual({
+	expect(munchFromHopZuo("")).toBe(null)
+	expect(munchFromHopZuo("黒")).toBe(null)
+	expect(munchFromHopZuo("黒弓")).toBe(null)
+	expect(munchFromHopZuo("黒弓M")).toBe(null)
+	expect(munchFromHopZuo("黒弓MY")).toEqual({
 		ans: {
 			color: 1,
 			prof: 2,
