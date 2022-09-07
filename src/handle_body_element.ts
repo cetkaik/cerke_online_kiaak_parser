@@ -166,7 +166,7 @@ export const munchCiurlEvent: Munch<CiurlEvent> = (s: string) => {
 					t[0] === "二" ? 2 :
 						t[0] === "三" ? 3 :
 							t[0] === "四" ? 4 :
-								t[0] === "五" ? 5 : (() => { throw new Error("Unexpected character found after 橋") });
+								t[0] === "五" ? 5 : (() => { throw new Error("Unexpected character found after 橋") })();
 		const rest = t.slice(1);
 
 		// Either nothing, 此無, or munchWaterEvent
@@ -180,13 +180,13 @@ export const munchCiurlEvent: Munch<CiurlEvent> = (s: string) => {
 			return { ans: { stepping_ciurl, infafterstep_success: true }, rest }
 		}
 	} else {
-		throw new Error(`Unparsable Ciurl event: \`${s}\``);
+		return null;
 	}
 }
 
 export function handleTrailingParameters(s: string): { ciurl_event: CiurlEvent, piece_capture?: { color: Color, prof: Profession } } {
 	const try_ciurl_event = munchCiurlEvent(s)
-	if (!try_ciurl_event) { throw new Error(`Unparsable trailing parameter: \`${s}\``) }
+	if (!try_ciurl_event) { throw new Error(`Unparsable ciurl event: \`${s}\``) }
 	const { ans: ciurl_event, rest } = try_ciurl_event;
 
 	if (rest === "") {

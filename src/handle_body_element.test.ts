@@ -94,6 +94,11 @@ test("wrong second coord", () => {
 test('contains tam but broken', () => {
 	expect(() => handleBodyElement("C皇")).toThrow()
 	expect(() => handleBodyElement("CAI炎皇")).toThrow()
+	expect(() => handleBodyElement("CAI皇[CO]炎")).toThrow()
+	expect(() => handleBodyElement("CAI皇[CO]CU炎")).toThrow()
+	expect(() => handleBodyElement("CAI皇[CO]CUZU炎")).toThrow()
+	expect(() => handleBodyElement("CAI皇TAI[CO]炎")).toThrow()
+	expect(() => handleBodyElement("CAI皇TAI[CO]CU炎")).toThrow()
 });
 
 test("water", () => {
@@ -107,13 +112,42 @@ test("water", () => {
 				dest: ["AI", "Z"],
 			}
 		}, "ciurl_and_capture": { ciurl_event: { water_entry_ciurl: 4 }, piece_capture: { color: 0, prof: 0 } }
+	});
+
+	expect(handleBodyElement("TIA片ZAUZAI水五手黒船")).toEqual({
+		"type": "normal_move",
+		movement: {
+			type: "NonTamMove", data: {
+				type: "SrcStepDst",
+				src: ["IA", "T"],
+				step: ["AU", "Z"],
+				dest: ["AI", "Z"],
+			}
+		}, "ciurl_and_capture": { ciurl_event: { water_entry_ciurl: 5 }, piece_capture: { color: 1, prof: 0 } }
 	})
 
 	expect(() => handleBodyElement("TIA片ZAUZAI水面下")).toThrow()
 	expect(() => handleBodyElement("TIA片ZAUZAI水四面下")).toThrow()
 	expect(() => handleBodyElement("TIA片ZAUZAI水四手赤船面下")).toThrow()
+});
 
-})
+test("bridge", () => {
+	expect(handleBodyElement("ZAI片ZIZA橋四手赤王")).toEqual({
+		"type": "normal_move",
+		movement: {
+			type: "NonTamMove", data: {
+				type: "SrcStepDst",
+				src: ["AI", "Z"],
+				step: ["I", "Z"],
+				dest: ["A", "Z"],
+			}
+		}, "ciurl_and_capture": { 
+			ciurl_event: { infafterstep_success: true, stepping_ciurl: 4 }, 
+			piece_capture: { color: 0, prof: 9 } 
+		}
+	});
+	expect(() => handleBodyElement("ZAI片ZIZA橋炎")).toThrow()
+});
 
 
 test('無撃裁', () => {
