@@ -111,7 +111,7 @@ test("water", () => {
 				step: ["AU", "Z"],
 				dest: ["AI", "Z"],
 			}
-		}, "ciurl_and_capture": { ciurl_event: { water_entry_ciurl: 4 }, piece_capture: { color: 0, prof: 0 } }
+		}, "ciurl_and_capture": { ciurl_event: { type: "has_water_entry", water_entry_ciurl: 4 }, piece_capture: { color: 0, prof: 0 } }
 	});
 
 	expect(handleBodyElement("TIA片ZAUZAI水五手黒船")).toEqual({
@@ -123,7 +123,7 @@ test("water", () => {
 				step: ["AU", "Z"],
 				dest: ["AI", "Z"],
 			}
-		}, "ciurl_and_capture": { ciurl_event: { water_entry_ciurl: 5 }, piece_capture: { color: 1, prof: 0 } }
+		}, "ciurl_and_capture": { ciurl_event: { type: "has_water_entry", water_entry_ciurl: 5 }, piece_capture: { color: 1, prof: 0 } }
 	})
 
 	expect(() => handleBodyElement("TIA片ZAUZAI水面下")).toThrow()
@@ -141,9 +141,9 @@ test("bridge", () => {
 				step: ["I", "Z"],
 				dest: ["A", "Z"],
 			}
-		}, "ciurl_and_capture": { 
-			ciurl_event: { infafterstep_success: true, stepping_ciurl: 4 }, 
-			piece_capture: { color: 0, prof: 9 } 
+		}, "ciurl_and_capture": {
+			ciurl_event: { type: "only_stepping", infafterstep_success: true, stepping_ciurl: 4 },
+			piece_capture: { color: 0, prof: 9 }
 		}
 	});
 	expect(() => handleBodyElement("ZAI片ZIZA橋炎")).toThrow()
@@ -159,7 +159,7 @@ test('無撃裁', () => {
 				src: ["AI", "C"],
 				dest: ["AU", "C"]
 			}
-		}, "ciurl_and_capture": { ciurl_event: {} }
+		}, "ciurl_and_capture": { ciurl_event: { type: "no_ciurl_event" } }
 	});
 });
 
@@ -173,7 +173,7 @@ test('無撃裁2', () => {
 				step: ["AU", "C"],
 				dest: ["AI", "C"],
 			}
-		}, "ciurl_and_capture": { ciurl_event: {} }
+		}, "ciurl_and_capture": { ciurl_event: { type: "no_ciurl_event" } }
 	});
 });
 

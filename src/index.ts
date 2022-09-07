@@ -1,5 +1,5 @@
 import { BodyElement, handleBodyElement } from "./handle_body_element";
-export { BodyElement } from "./handle_body_element";
+export { BodyElement, CiurlEvent } from "./handle_body_element";
 export type Parsed = {
 	starting_players: string | undefined,
 	starting_time: string | undefined,

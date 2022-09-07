@@ -131,9 +131,9 @@ export function handleYaku(s: string): BodyElement {
 	return { type: "taxot", hands, score }
 }
 
-type CiurlEvent = {}
-	| { stepping_ciurl: number, infafterstep_success: boolean }
-	| { stepping_ciurl?: number, water_entry_ciurl: number };
+export type CiurlEvent = { type: "no_ciurl_event" }
+	| { type: "only_stepping", stepping_ciurl: number, infafterstep_success: boolean }
+	| { type: "has_water_entry", stepping_ciurl?: number, water_entry_ciurl: number }
 export const munchWaterEvent: Munch<number> = (s: string) => {
 	if (s.startsWith("水")) {
 		const t = s.slice(1);
@@ -149,13 +149,13 @@ export const munchWaterEvent: Munch<number> = (s: string) => {
 
 export const munchCiurlEvent: Munch<CiurlEvent> = (s: string) => {
 	if (s.startsWith("無撃裁")) {
-		return { ans: {}, rest: s.slice(3) };
+		return { ans: { type: "no_ciurl_event" }, rest: s.slice(3) };
 	}
 
 	const try_munch_water = munchWaterEvent(s);
 	if (try_munch_water) {
 		const { ans, rest } = try_munch_water;
-		return { ans: { water_entry_ciurl: ans }, rest };
+		return { ans: { type: "has_water_entry", water_entry_ciurl: ans }, rest };
 	}
 
 	if (s.startsWith("橋")) {
@@ -173,11 +173,11 @@ export const munchCiurlEvent: Munch<CiurlEvent> = (s: string) => {
 		const try_munch_water = munchWaterEvent(rest);
 		if (try_munch_water) {
 			const { ans: water_entry_ciurl, rest: rest2 } = try_munch_water;
-			return { ans: { stepping_ciurl, water_entry_ciurl }, rest: rest2 }
+			return { ans: { type: "has_water_entry", stepping_ciurl, water_entry_ciurl }, rest: rest2 }
 		} else if (rest.startsWith("此無")) {
-			return { ans: { stepping_ciurl, infafterstep_success: false }, rest: "" }
+			return { ans: { type: "only_stepping", stepping_ciurl, infafterstep_success: false }, rest: "" }
 		} else {
-			return { ans: { stepping_ciurl, infafterstep_success: true }, rest }
+			return { ans: { type: "only_stepping", stepping_ciurl, infafterstep_success: true }, rest }
 		}
 	} else {
 		return null;
