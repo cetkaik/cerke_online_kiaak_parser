@@ -1,4 +1,4 @@
-import { handleBodyElement } from './handle_body_element.mjs';
+import { handleBodyElement } from './handle_body_element';
 
 test('seasons', () => {
 	expect(handleBodyElement("春終")).toEqual({ "type": "season_ends", season: 0 });

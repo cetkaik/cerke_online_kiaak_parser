@@ -1,7 +1,7 @@
 import { Color, Profession, AbsoluteColumn, AbsoluteRow, AbsoluteCoord } from "cerke_online_api";
 import { Hand } from "cerke_hands_and_score"
-import { Munch, liftM2, liftM3, string, many1 } from "./munch_monad.mjs";
-import { DigitLinzklar, fromDigitsLinzklar } from "./read_pekzep_numerals.mjs";
+import { Munch, liftM2, liftM3, string, many1 } from "./munch_monad";
+import { DigitLinzklar, fromDigitsLinzklar } from "./read_pekzep_numerals";
 
 const munchColor: Munch<Color> = (s: string) => {
 	if (s.charAt(0) === "赤") { return { ans: 0, rest: s.slice(1) } }

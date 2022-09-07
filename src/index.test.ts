@@ -1,4 +1,4 @@
-import { foo } from "./index.mjs";
+import { foo } from "./index";
 
 
 

@@ -114,7 +114,7 @@ function toDigitsSub(num: number): Digit[] {
 
 /*-----------------------------------------------------*/
 
-import { fromDigitsLinzklar } from "./read_pekzep_numerals.mjs";
+import { fromDigitsLinzklar } from "./read_pekzep_numerals";
 
 test('numerals', () => {
 	for (let i = -9999; i <= 9999; i++) {
