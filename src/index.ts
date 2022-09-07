@@ -8,7 +8,7 @@ export type Parsed = {
 }
 
 // Very primitive parser that never handles all the edge cases
-export function foo(s: string): Parsed {
+export function parseCerkeOnlineKia1Ak1(s: string): Parsed {
 	const lines = s.trim().split("\n").map(l => l.trim());
 
 	const initial_line = lines[0];

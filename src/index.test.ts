@@ -1,4 +1,4 @@
-import { foo } from "./index";
+import { parseCerkeOnlineKia1Ak1 } from "./index";
 
 
 
@@ -181,7 +181,7 @@ ZI船ZIA無撃裁手黒王
 星一周`;
 
 test('main test', () => {
-	expect(foo(case1)).toEqual({
+	expect(parseCerkeOnlineKia1Ak1(case1)).toEqual({
 		"starting_players": "黒黒黒",
 		"starting_time": "2022-05-31T17:16:02.433Z",
 		"ending_time": "2022-05-31T18:13:52.357Z",
@@ -257,7 +257,7 @@ test('main test', () => {
 			{ "type": "game_set" }
 		]
 	});
-	expect(foo(case2)).toEqual({
+	expect(parseCerkeOnlineKia1Ak1(case2)).toEqual({
 		starting_players: '黒黒赤赤',
 		starting_time: "2021-11-20T07:52:51.743Z",
 		ending_time: "2021-11-20T08:12:18.137Z",
@@ -364,7 +364,7 @@ test('main test', () => {
 			{ "type": "game_set" }
 		]
 	});
-	expect(foo(case3)).toEqual({
+	expect(parseCerkeOnlineKia1Ak1(case3)).toEqual({
 		starting_players: '赤赤赤',
 		starting_time: "2022-04-01T17:00:24.278Z",
 		ending_time: "2022-04-01T17:59:40.857Z",
@@ -468,11 +468,11 @@ test('main test', () => {
 });
 
 test('cannot find', () => {
-	expect(() => foo("")).toThrow("棋譜がありません");
+	expect(() => parseCerkeOnlineKia1Ak1("")).toThrow("棋譜がありません");
 });
 
 test('does not start correctly', () => {
-	expect(() => foo("aaa")).toThrow("棋譜が {一位色: で始まっていません。");
+	expect(() => parseCerkeOnlineKia1Ak1("aaa")).toThrow("棋譜が {一位色: で始まっていません。");
 });
 
 const old_version = `{始時:2021-10-02T17:02:23.217Z}
@@ -504,5 +504,5 @@ ZAI片ZIZA橋一此無    ZI片ZAIZIA橋四手黒王
 星一周`;
 
 test('old version', () => {
-	expect(() => foo(old_version)).toThrow("棋譜が {始時: で始まっています。これは2021年11月末アップデート以前の棋譜であり、まだ対応できていません。");
+	expect(() => parseCerkeOnlineKia1Ak1(old_version)).toThrow("棋譜が {始時: で始まっています。これは2021年11月末アップデート以前の棋譜であり、まだ対応できていません。");
 });
