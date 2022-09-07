@@ -20,7 +20,7 @@ test("tammove", () => {
 			"stepStyle": "NoStep",
 			"type": "TamMove",
 		},
-		"type": "normal_move",
+		"type": "tam_move",
 	});
 	expect(handleBodyElement("ZO皇[ZU]ZIZE")).toEqual({
 		"movement": {
@@ -31,7 +31,7 @@ test("tammove", () => {
 			"stepStyle": "StepsDuringLatter",
 			"type": "TamMove"
 		},
-		"type": "normal_move",
+		"type": "tam_move",
 	});
 	expect(handleBodyElement("TY皇TAI[TAU]ZAU")).toEqual({
 		"movement": {
@@ -42,7 +42,7 @@ test("tammove", () => {
 			"stepStyle": "StepsDuringFormer",
 			"type": "TamMove"
 		},
-		"type": "normal_move",
+		"type": "tam_move",
 	});
 })
 
@@ -69,10 +69,10 @@ test("yaku", () => {
 
 test("fromHand", () => {
 	expect(handleBodyElement("黒弓MY")).toEqual({
-		"type": "normal_move",
+		"type": "from_hopzuo",
 		movement: {
 			type: "NonTamMove", data: {
-				type: "FromHand",
+				type: "FromHop1Zuo1",
 				color: 1,
 				prof: 2,
 				dest: ["Y", "M"]
@@ -101,7 +101,7 @@ test("water", () => {
 		"type": "normal_move",
 		movement: {
 			type: "NonTamMove", data: {
-				type: "SrcStepDstFinite",
+				type: "SrcStepDst",
 				src: ["IA", "T"],
 				step: ["AU", "Z"],
 				dest: ["AI", "Z"],
@@ -134,7 +134,7 @@ test('無撃裁2', () => {
 		"type": "normal_move",
 		movement: {
 			type: "NonTamMove", data: {
-				type: "SrcStepDstFinite",
+				type: "SrcStepDst",
 				src: ["AU", "P"],
 				step: ["AU", "C"],
 				dest: ["AI", "C"],

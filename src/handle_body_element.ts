@@ -10,7 +10,7 @@ export interface NormalNonTamMoveExceptFromHopzuo {
 		src: AbsoluteCoord;
 		dest: AbsoluteCoord;
 	} | {
-		type: "SrcStepDstFinite";
+		type: "SrcStepDst";
 		src: AbsoluteCoord;
 		step: AbsoluteCoord;
 		dest: AbsoluteCoord;
@@ -21,17 +21,17 @@ type CiurlAndCapture = { ciurl_event: CiurlEvent, piece_capture?: { color: Color
 export type BodyElement =
 	{ "type": "normal_move", movement: NormalNonTamMoveExceptFromHopzuo, ciurl_and_capture: CiurlAndCapture }
 	| {
-		"type": "normal_move", movement: {
+		"type": "from_hopzuo", movement: {
 			type: "NonTamMove";
 			data: {
-				type: "FromHand";
+				type: "FromHop1Zuo1";
 				color: Color;
 				prof: Profession;
 				dest: AbsoluteCoord;
 			}
 		}
 	}
-	| { "type": "normal_move", movement: TamMove }
+	| { "type": "tam_move", movement: TamMove }
 	| { "type": "end_season" }
 	| { "type": "game_set" }
 	| { "type": "season_ends", season: Season }
@@ -67,7 +67,7 @@ export function handleTamMove(s: string): BodyElement {
 		const { ans: { firstDest, next }, rest: rest2 } = try_munch_bracket_and_nonbracket;
 		if (rest2 === "") {
 			return {
-				"type": "normal_move",
+				"type": "tam_move",
 				movement: {
 					type: "TamMove",
 					stepStyle: "NoStep",
@@ -80,7 +80,7 @@ export function handleTamMove(s: string): BodyElement {
 			const { ans: secondDest, rest: empty } = try_munch_coord;
 			if (empty !== "") { throw new Error(`Cannot handle trailing \`${empty}\` found within  \`${s}\``) }
 			return {
-				"type": "normal_move",
+				"type": "tam_move",
 				movement: { type: "TamMove", stepStyle: "StepsDuringLatter", src, firstDest, step: next, secondDest }
 			}
 		}
@@ -95,7 +95,7 @@ export function handleTamMove(s: string): BodyElement {
 
 		if (empty !== "") { throw new Error(`Cannot handle trailing \`${rest}\` found within  \`${s}\``) }
 		return {
-			"type": "normal_move",
+			"type": "tam_move",
 			movement: {
 				type: "TamMove",
 				stepStyle: "StepsDuringFormer",
@@ -222,10 +222,10 @@ export function handleBodyElement(s: string): BodyElement {
 		const { ans: { color, prof, dest }, rest } = try_munch_from_hopzuo;
 		if (rest !== "") { throw new Error(`Cannot handle trailing \`${rest}\` found within  \`${s}\``) }
 		return {
-			"type": "normal_move",
+			"type": "from_hopzuo",
 			movement: {
 				type: "NonTamMove", data: {
-					type: "FromHand",
+					type: "FromHop1Zuo1",
 					color,
 					prof,
 					dest
@@ -272,7 +272,7 @@ export function handleBodyElement(s: string): BodyElement {
 			"type": "normal_move",
 			movement: {
 				type: "NonTamMove", data: {
-					type: "SrcStepDstFinite",
+					type: "SrcStepDst",
 					src,
 					step: second_coord,
 					dest: third_coord
