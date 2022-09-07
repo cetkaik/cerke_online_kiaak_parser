@@ -1,6 +1,6 @@
 import { BodyElement, handleBodyElement } from "./handle_body_element";
-
-type Parsed = {
+export { BodyElement } from "./handle_body_element";
+export type Parsed = {
 	starting_players: string | undefined,
 	starting_time: string | undefined,
 	ending_time: string | undefined,
