@@ -1,4 +1,4 @@
-import { BodyElement, handleBodyElement } from "./handle_body_element";
+import { BodyElement, handleBodyElement } from "./handle_body_element.mjs";
 
 type Parsed = {
 	starting_players: string | undefined,

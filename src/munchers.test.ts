@@ -1,4 +1,4 @@
-import { munchCoord, munchFromHopZuo } from "./munchers"
+import { munchCoord, munchFromHopZuo } from "./munchers.mjs"
 
 test('munchCoord', () => {
 	expect(munchCoord("CAIあ")).toEqual({ ans: ["AI", "C"], rest: "あ" });

@@ -1,7 +1,7 @@
 import { Hand } from "cerke_hands_and_score";
 import { AbsoluteCoord, Color, Profession, Season, TamMove } from "cerke_online_api";
-import { munchBracketedCoord, munchCoord, munchFromHopZuo as munchFromHopZuo, munchHand, munchPekzepNumeral, munchPieceCaptureComment } from "./munchers";
-import { Munch, liftM2, liftM3, sepBy1, string } from "./munch_monad";
+import { munchBracketedCoord, munchCoord, munchFromHopZuo as munchFromHopZuo, munchHand, munchPekzepNumeral, munchPieceCaptureComment } from "./munchers.mjs";
+import { Munch, liftM2, liftM3, sepBy1, string } from "./munch_monad.mjs";
 
 export interface NormalNonTamMoveExceptFromHopzuo {
 	type: "NonTamMove";

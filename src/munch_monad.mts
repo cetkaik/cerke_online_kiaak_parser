@@ -28,7 +28,7 @@ export const liftM3: <A, B, C, D> (f: (a: A, b: B, c: C) => D, ma: Munch<A>, mb:
 		)
 	);
 
-export const many: <A>(ma: Munch<A>) => Munch<A[]> = <A>(ma: Munch<A>) => input => {
+export const many: <A>(ma: Munch<A>) => Munch<A[]> = <A,>(ma: Munch<A>) => input => {
 	const ans: A[] = [];
 	let rest = input;
 	while (true) {
@@ -40,7 +40,7 @@ export const many: <A>(ma: Munch<A>) => Munch<A[]> = <A>(ma: Munch<A>) => input 
 	}
 };
 
-export const many1: <A>(ma: Munch<A>) => Munch<A[]> = <A>(ma: Munch<A>) => input => {	
+export const many1: <A>(ma: Munch<A>) => Munch<A[]> = <A,>(ma: Munch<A>) => input => {	
 	const res1 = ma(input);
 	if (res1 === null) return null;
 	let { ans: a, rest } = res1;
