@@ -48,16 +48,16 @@ test("tammove", () => {
 
 test("yaku", () => {
 	expect(handleBodyElement("或為王加獣")).toEqual({
-		"type": "tymok",
+		"type": "before_tymok",
 		hands: ["王", "獣"]
 	});
 	expect(handleBodyElement("或為王加獣而手八")).toEqual({
-		"type": "taxot",
+		"type": "before_taxot",
 		hands: ["王", "獣"],
 		score: 8
 	});
 	expect(handleBodyElement("或為同色馬弓兵而手七")).toEqual({
-		"type": "taxot",
+		"type": "before_taxot",
 		hands: ["同色馬弓兵"],
 		score: 7
 	});

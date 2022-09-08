@@ -33,10 +33,11 @@ export type BodyElement =
 	}
 	| { "type": "tam_move", movement: TamMove }
 	| { "type": "end_season" }
+	| { "type": "go_again" }
 	| { "type": "game_set" }
 	| { "type": "season_ends", season: Season }
-	| { "type": "tymok", hands: Hand[] }
-	| { "type": "taxot", hands: Hand[], score: number };
+	| { "type": "before_tymok", hands: Hand[] }
+	| { "type": "before_taxot", hands: Hand[], score: number };
 
 export function handleTamMove(s: string): BodyElement {
 	const try_munch_src = munchCoord(s);
@@ -116,7 +117,7 @@ export function handleYaku(s: string): BodyElement {
 
 	const { ans: hands, rest } = munch;
 	if (rest === "") {
-		return { type: "tymok", hands }
+		return { type: "before_tymok", hands }
 	}
 	const munch2 = liftM2((_, num) => num, string("而手"), munchPekzepNumeral)(rest);
 	if (!munch2) {
@@ -128,7 +129,7 @@ export function handleYaku(s: string): BodyElement {
 		throw new Error(`Cannot handle trailing \`${rest}\` found within  \`${s}\``)
 	}
 
-	return { type: "taxot", hands, score }
+	return { type: "before_taxot", hands, score }
 }
 
 export type CiurlEvent = { type: "no_ciurl_event" }
@@ -212,6 +213,7 @@ export function handleBodyElement(s: string): BodyElement {
 	if (s === "秋終") { return { "type": "season_ends", season: 2 }; }
 	if (s === "冬終") { return { "type": "season_ends", season: 3 }; }
 	if (s === "終季") { return { "type": "end_season" }; }
+	if (s === "再行") { return { "type": "go_again" }}
 	if (s === "星一周") { return { "type": "game_set" }; }
 
 	if (s.includes("為")) { return handleYaku(s); }
