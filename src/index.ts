@@ -7,9 +7,10 @@ export type Parsed = {
 	parsed_bodies: BodyElement[]
 }
 
-// Very primitive parser that never handles all the edge cases
 export function parseCerkeOnlineKia1Ak1(s: string): Parsed {
 	const lines = s.trim().split("\n").map(l => l.trim());
+
+	const body_starts_at = lines.findIndex(l => 'KLNTZXCMP"'.includes(l[0] ?? '$'));
 
 	const initial_line = lines[0];
 
@@ -25,7 +26,7 @@ export function parseCerkeOnlineKia1Ak1(s: string): Parsed {
 	const starting_time = lines[1]?.match(/^\{始時:([^}]+)\}$/)?.[1];
 	const ending_time = lines[2]?.match(/^\{終時:([^}]+)\}$/)?.[1];
 
-	const bodies = lines.slice(3).flatMap(line => line.split(/[\s\n]/g)).filter(a => a !== "");
+	const bodies = lines.slice(body_starts_at).flatMap(line => line.split(/[\s\n]/g)).filter(a => a !== "");
 	const parsed_bodies = bodies.map(handleBodyElement);
 	return { starting_players, starting_time, ending_time, parsed_bodies };
 }

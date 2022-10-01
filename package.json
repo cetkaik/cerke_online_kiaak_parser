@@ -1,6 +1,6 @@
 {
   "name": "cerke_online_kiaak_parser",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "",
   "files": ["dist"],
   "main": "dist/index.js",

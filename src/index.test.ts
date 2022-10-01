@@ -52,6 +52,55 @@ TY虎NOLU無撃裁手赤兵
 
 星一周`;
 
+const case1_but_without_ending_time =
+	`{一位色:黒黒黒}
+{始時:2022-05-31T17:16:02.433Z}
+MAU弓MAIMY橋五    PE巫PIPU無撃裁
+CAI兵CAU無撃裁    ME弓CE無撃裁
+PAU巫CAUCAI無撃裁    ZA王ZE無撃裁
+MY弓MIMA橋一此無    CI兵MIMU無撃裁
+CAI巫CAMA橋一手赤馬    PA筆MA無撃裁手赤巫
+LAU弓LAILY橋三    TE虎NITU橋一
+LY弓LILE橋三手赤弓    KA筆KELE無撃裁手黒弓
+MY弓MU無撃裁手黒兵
+
+或為馬弓兵而手五
+終季    春終
+
+MAU弓MAIMY橋三    XE虎ZIXU無撃裁
+XAI兵XY無撃裁    XU虎MY無撃裁手赤弓
+XAU虎CAIMY橋四手黒虎    ME弓MIMU橋三
+KAU巫KAIKY無撃裁    ZO皇[TU]ZIZE
+PAU巫ZAU無撃裁    CI兵CE無撃裁
+ZAI船ZI無撃裁手赤船    TE虎ZI水二此無
+ZE皇TI[NU]LO    XA将ZE無撃裁
+ZI船ZEZA橋四手赤王
+
+或為王加獣而手八
+終季    夏終
+
+MAU弓MAIMY橋二    ME弓MIMU橋三
+CAI兵CAU無撃裁    XE虎ZIXU無撃裁
+MY弓MU無撃裁手黒弓    MI兵MU無撃裁手赤弓
+PAU巫CAUCAI無撃裁    ZA王ZE無撃裁
+CAI巫CAXA橋三手赤将    ZE王XA無撃裁手赤巫
+PIA筆PAIPY橋一    PE巫ZE無撃裁
+PY筆PIPA橋二手赤筆    CA車PA無撃裁手黒筆
+LAU弓LAILY橋一    LE弓LILU橋四
+LY弓LU無撃裁手赤弓    LI兵LU無撃裁手黒弓
+黒弓CY    黒弓CU
+CY弓CU無撃裁手黒弓    CI兵CU無撃裁手黒弓
+黒弓MI    XA王CE無撃裁
+MI弓MA無撃裁手赤馬    CE王MA無撃裁手黒弓
+TAU虎ZAITY無撃裁    NI兵NO水三
+TY虎NOLU無撃裁手赤兵
+
+或為同色馬弓兵而手七
+終季    秋終
+
+
+星一周`;
+
 const case2 = `{一位色:黒黒赤赤}
 {始時:2021-11-20T07:52:51.743Z}
 {終時:2021-11-20T08:12:18.137Z}
@@ -204,82 +253,90 @@ ZI船ZIA無撃裁手黒王
 
 星一周`;
 
+const case1_bodies = [
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "M"], "step": ["AI", "M"], "dest": ["Y", "M"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 5, "infafterstep_success": true, "type": "only_stepping" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["E", "P"], "step": ["I", "P"], "dest": ["U", "P"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["AI", "C"], "dest": ["AU", "C"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["E", "M"], "dest": ["E", "C"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "P"], "step": ["AU", "C"], "dest": ["AI", "C"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["A", "Z"], "dest": ["E", "Z"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["Y", "M"], "step": ["I", "M"], "dest": ["A", "M"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 1, "infafterstep_success": false, "type": "only_stepping" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["I", "C"], "step": ["I", "M"], "dest": ["U", "M"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AI", "C"], "step": ["A", "C"], "dest": ["A", "M"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 1, "infafterstep_success": true, "type": "only_stepping" }, "piece_capture": { "color": 0, "prof": 5 } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["A", "P"], "dest": ["A", "M"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 0, "prof": 7 } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "L"], "step": ["AI", "L"], "dest": ["Y", "L"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 3, "infafterstep_success": true, "type": "only_stepping" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["E", "T"], "step": ["I", "N"], "dest": ["U", "T"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 1, "infafterstep_success": true, "type": "only_stepping" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["Y", "L"], "step": ["I", "L"], "dest": ["E", "L"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 3, "infafterstep_success": true, "type": "only_stepping" }, "piece_capture": { "color": 0, "prof": 2 } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["A", "K"], "step": ["E", "K"], "dest": ["E", "L"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 1, "prof": 2 } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["Y", "M"], "dest": ["U", "M"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 1, "prof": 1 } } },
+	{ "type": "before_taxot", "hands": ["馬弓兵"], "score": 5 },
+	{ "type": "end_season" },
+	{ "type": "season_ends", "season": 0 },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "M"], "step": ["AI", "M"], "dest": ["Y", "M"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 3, "infafterstep_success": true, "type": "only_stepping" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["E", "X"], "step": ["I", "Z"], "dest": ["U", "X"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["AI", "X"], "dest": ["Y", "X"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["U", "X"], "dest": ["Y", "M"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 0, "prof": 2 } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "X"], "step": ["AI", "C"], "dest": ["Y", "M"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 4, "infafterstep_success": true, "type": "only_stepping" }, "piece_capture": { "color": 1, "prof": 4 } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["E", "M"], "step": ["I", "M"], "dest": ["U", "M"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 3, "infafterstep_success": true, "type": "only_stepping" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "K"], "step": ["AI", "K"], "dest": ["Y", "K"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
+	{ "type": "tam_move", "movement": { "type": "TamMove", "stepStyle": "StepsDuringLatter", "src": ["O", "Z"], "firstDest": ["U", "T"], "step": ["I", "Z"], "secondDest": ["E", "Z"] } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["AU", "P"], "dest": ["AU", "Z"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["I", "C"], "dest": ["E", "C"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["AI", "Z"], "dest": ["I", "Z"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 0, "prof": 0 } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["E", "T"], "dest": ["I", "Z"] } }, "ciurl_and_capture": { "ciurl_event": { "type": "has_water_entry", "water_entry_ciurl": 2 } } },
+	{ "type": "tam_move", "movement": { "type": "TamMove", "stepStyle": "StepsDuringFormer", "src": ["E", "Z"], "step": ["I", "T"], "firstDest": ["U", "N"], "secondDest": ["O", "L"] } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["A", "X"], "dest": ["E", "Z"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["I", "Z"], "step": ["E", "Z"], "dest": ["A", "Z"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 4, "infafterstep_success": true, "type": "only_stepping" }, "piece_capture": { "color": 0, "prof": 9 } } },
+	{ "type": "before_taxot", "hands": ["王", "獣"], "score": 8 },
+	{ "type": "end_season" },
+	{ "type": "season_ends", "season": 1 },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "M"], "step": ["AI", "M"], "dest": ["Y", "M"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 2, "infafterstep_success": true, "type": "only_stepping" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["E", "M"], "step": ["I", "M"], "dest": ["U", "M"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 3, "infafterstep_success": true, "type": "only_stepping" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["AI", "C"], "dest": ["AU", "C"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["E", "X"], "step": ["I", "Z"], "dest": ["U", "X"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["Y", "M"], "dest": ["U", "M"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 1, "prof": 2 } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["I", "M"], "dest": ["U", "M"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 0, "prof": 2 } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "P"], "step": ["AU", "C"], "dest": ["AI", "C"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["A", "Z"], "dest": ["E", "Z"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AI", "C"], "step": ["A", "C"], "dest": ["A", "X"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 3, "infafterstep_success": true, "type": "only_stepping" }, "piece_capture": { "color": 0, "prof": 8 } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["E", "Z"], "dest": ["A", "X"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 0, "prof": 7 } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["IA", "P"], "step": ["AI", "P"], "dest": ["Y", "P"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 1, "infafterstep_success": true, "type": "only_stepping" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["E", "P"], "dest": ["E", "Z"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["Y", "P"], "step": ["I", "P"], "dest": ["A", "P"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 2, "infafterstep_success": true, "type": "only_stepping" }, "piece_capture": { "color": 0, "prof": 6 } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["A", "C"], "dest": ["A", "P"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 1, "prof": 6 } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "L"], "step": ["AI", "L"], "dest": ["Y", "L"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 1, "infafterstep_success": true, "type": "only_stepping" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["E", "L"], "step": ["I", "L"], "dest": ["U", "L"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 4, "infafterstep_success": true, "type": "only_stepping" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["Y", "L"], "dest": ["U", "L"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 0, "prof": 2 } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["I", "L"], "dest": ["U", "L"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 1, "prof": 2 } } },
+	{ "type": "from_hopzuo", "movement": { "type": "NonTamMove", "data": { "type": "FromHop1Zuo1", "color": 1, "prof": 2, "dest": ["Y", "C"] } } },
+	{ "type": "from_hopzuo", "movement": { "type": "NonTamMove", "data": { "type": "FromHop1Zuo1", "color": 1, "prof": 2, "dest": ["U", "C"] } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["Y", "C"], "dest": ["U", "C"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 1, "prof": 2 } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["I", "C"], "dest": ["U", "C"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 1, "prof": 2 } } },
+	{ "type": "from_hopzuo", "movement": { "type": "NonTamMove", "data": { "type": "FromHop1Zuo1", "color": 1, "prof": 2, "dest": ["I", "M"] } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["A", "X"], "dest": ["E", "C"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["I", "M"], "dest": ["A", "M"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 0, "prof": 5 } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["E", "C"], "dest": ["A", "M"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 1, "prof": 2 } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "T"], "step": ["AI", "Z"], "dest": ["Y", "T"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["I", "N"], "dest": ["O", "N"] } }, "ciurl_and_capture": { "ciurl_event": { "type": "has_water_entry", "water_entry_ciurl": 3 } } },
+	{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["Y", "T"], "step": ["O", "N"], "dest": ["U", "L"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 0, "prof": 1 } } },
+	{ "type": "before_taxot", "hands": ["同色馬弓兵"], "score": 7 },
+	{ "type": "end_season" },
+	{ "type": "season_ends", "season": 2 },
+	{ "type": "game_set" }
+];
+
 test('main test', () => {
 	expect(parseCerkeOnlineKia1Ak1(case1)).toEqual({
 		"starting_players": "黒黒黒",
 		"starting_time": "2022-05-31T17:16:02.433Z",
 		"ending_time": "2022-05-31T18:13:52.357Z",
-		parsed_bodies: [
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "M"], "step": ["AI", "M"], "dest": ["Y", "M"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 5, "infafterstep_success": true, "type": "only_stepping" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["E", "P"], "step": ["I", "P"], "dest": ["U", "P"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["AI", "C"], "dest": ["AU", "C"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["E", "M"], "dest": ["E", "C"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "P"], "step": ["AU", "C"], "dest": ["AI", "C"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["A", "Z"], "dest": ["E", "Z"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["Y", "M"], "step": ["I", "M"], "dest": ["A", "M"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 1, "infafterstep_success": false, "type": "only_stepping" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["I", "C"], "step": ["I", "M"], "dest": ["U", "M"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AI", "C"], "step": ["A", "C"], "dest": ["A", "M"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 1, "infafterstep_success": true, "type": "only_stepping" }, "piece_capture": { "color": 0, "prof": 5 } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["A", "P"], "dest": ["A", "M"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 0, "prof": 7 } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "L"], "step": ["AI", "L"], "dest": ["Y", "L"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 3, "infafterstep_success": true, "type": "only_stepping" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["E", "T"], "step": ["I", "N"], "dest": ["U", "T"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 1, "infafterstep_success": true, "type": "only_stepping" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["Y", "L"], "step": ["I", "L"], "dest": ["E", "L"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 3, "infafterstep_success": true, "type": "only_stepping" }, "piece_capture": { "color": 0, "prof": 2 } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["A", "K"], "step": ["E", "K"], "dest": ["E", "L"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 1, "prof": 2 } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["Y", "M"], "dest": ["U", "M"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 1, "prof": 1 } } },
-			{ "type": "before_taxot", "hands": ["馬弓兵"], "score": 5 },
-			{ "type": "end_season" },
-			{ "type": "season_ends", "season": 0 },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "M"], "step": ["AI", "M"], "dest": ["Y", "M"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 3, "infafterstep_success": true, "type": "only_stepping" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["E", "X"], "step": ["I", "Z"], "dest": ["U", "X"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["AI", "X"], "dest": ["Y", "X"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["U", "X"], "dest": ["Y", "M"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 0, "prof": 2 } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "X"], "step": ["AI", "C"], "dest": ["Y", "M"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 4, "infafterstep_success": true, "type": "only_stepping" }, "piece_capture": { "color": 1, "prof": 4 } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["E", "M"], "step": ["I", "M"], "dest": ["U", "M"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 3, "infafterstep_success": true, "type": "only_stepping" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "K"], "step": ["AI", "K"], "dest": ["Y", "K"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
-			{ "type": "tam_move", "movement": { "type": "TamMove", "stepStyle": "StepsDuringLatter", "src": ["O", "Z"], "firstDest": ["U", "T"], "step": ["I", "Z"], "secondDest": ["E", "Z"] } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["AU", "P"], "dest": ["AU", "Z"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["I", "C"], "dest": ["E", "C"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["AI", "Z"], "dest": ["I", "Z"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 0, "prof": 0 } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["E", "T"], "dest": ["I", "Z"] } }, "ciurl_and_capture": { "ciurl_event": { "type": "has_water_entry", "water_entry_ciurl": 2 } } },
-			{ "type": "tam_move", "movement": { "type": "TamMove", "stepStyle": "StepsDuringFormer", "src": ["E", "Z"], "step": ["I", "T"], "firstDest": ["U", "N"], "secondDest": ["O", "L"] } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["A", "X"], "dest": ["E", "Z"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["I", "Z"], "step": ["E", "Z"], "dest": ["A", "Z"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 4, "infafterstep_success": true, "type": "only_stepping" }, "piece_capture": { "color": 0, "prof": 9 } } },
-			{ "type": "before_taxot", "hands": ["王", "獣"], "score": 8 },
-			{ "type": "end_season" },
-			{ "type": "season_ends", "season": 1 },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "M"], "step": ["AI", "M"], "dest": ["Y", "M"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 2, "infafterstep_success": true, "type": "only_stepping" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["E", "M"], "step": ["I", "M"], "dest": ["U", "M"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 3, "infafterstep_success": true, "type": "only_stepping" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["AI", "C"], "dest": ["AU", "C"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["E", "X"], "step": ["I", "Z"], "dest": ["U", "X"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["Y", "M"], "dest": ["U", "M"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 1, "prof": 2 } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["I", "M"], "dest": ["U", "M"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 0, "prof": 2 } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "P"], "step": ["AU", "C"], "dest": ["AI", "C"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["A", "Z"], "dest": ["E", "Z"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AI", "C"], "step": ["A", "C"], "dest": ["A", "X"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 3, "infafterstep_success": true, "type": "only_stepping" }, "piece_capture": { "color": 0, "prof": 8 } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["E", "Z"], "dest": ["A", "X"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 0, "prof": 7 } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["IA", "P"], "step": ["AI", "P"], "dest": ["Y", "P"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 1, "infafterstep_success": true, "type": "only_stepping" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["E", "P"], "dest": ["E", "Z"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["Y", "P"], "step": ["I", "P"], "dest": ["A", "P"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 2, "infafterstep_success": true, "type": "only_stepping" }, "piece_capture": { "color": 0, "prof": 6 } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["A", "C"], "dest": ["A", "P"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 1, "prof": 6 } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "L"], "step": ["AI", "L"], "dest": ["Y", "L"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 1, "infafterstep_success": true, "type": "only_stepping" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["E", "L"], "step": ["I", "L"], "dest": ["U", "L"] } }, "ciurl_and_capture": { "ciurl_event": { "stepping_ciurl": 4, "infafterstep_success": true, "type": "only_stepping" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["Y", "L"], "dest": ["U", "L"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 0, "prof": 2 } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["I", "L"], "dest": ["U", "L"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 1, "prof": 2 } } },
-			{ "type": "from_hopzuo", "movement": { "type": "NonTamMove", "data": { "type": "FromHop1Zuo1", "color": 1, "prof": 2, "dest": ["Y", "C"] } } },
-			{ "type": "from_hopzuo", "movement": { "type": "NonTamMove", "data": { "type": "FromHop1Zuo1", "color": 1, "prof": 2, "dest": ["U", "C"] } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["Y", "C"], "dest": ["U", "C"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 1, "prof": 2 } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["I", "C"], "dest": ["U", "C"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 1, "prof": 2 } } },
-			{ "type": "from_hopzuo", "movement": { "type": "NonTamMove", "data": { "type": "FromHop1Zuo1", "color": 1, "prof": 2, "dest": ["I", "M"] } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["A", "X"], "dest": ["E", "C"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["I", "M"], "dest": ["A", "M"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 0, "prof": 5 } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["E", "C"], "dest": ["A", "M"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 1, "prof": 2 } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["AU", "T"], "step": ["AI", "Z"], "dest": ["Y", "T"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcDst", "src": ["I", "N"], "dest": ["O", "N"] } }, "ciurl_and_capture": { "ciurl_event": { "type": "has_water_entry", "water_entry_ciurl": 3 } } },
-			{ "type": "normal_move", "movement": { "type": "NonTamMove", "data": { "type": "SrcStepDst", "src": ["Y", "T"], "step": ["O", "N"], "dest": ["U", "L"] } }, "ciurl_and_capture": { "ciurl_event": { type: "no_ciurl_event" }, "piece_capture": { "color": 0, "prof": 1 } } },
-			{ "type": "before_taxot", "hands": ["同色馬弓兵"], "score": 7 },
-			{ "type": "end_season" },
-			{ "type": "season_ends", "season": 2 },
-			{ "type": "game_set" }
-		]
+		parsed_bodies: case1_bodies
+	});
+	expect(parseCerkeOnlineKia1Ak1(case1_but_without_ending_time)).toEqual({
+		"starting_players": "黒黒黒",
+		"starting_time": "2022-05-31T17:16:02.433Z",
+		"ending_time": undefined,
+		parsed_bodies: case1_bodies
 	});
 	expect(parseCerkeOnlineKia1Ak1(case2)).toEqual({
 		starting_players: '黒黒赤赤',
